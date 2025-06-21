@@ -5,16 +5,18 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.consultorio.controller.PacienteController">
+            fx:controller="com.consultorio.controller.PacienteController"
+            style="color:rgb(0, 0, 0); background-color: rgb(52, 163, 163);">
 
     <top>
-        <Label text="Registro de Paciente"
+        <Label text="Citas de Pacientes"
                style="-fx-font-size: 22px; -fx-padding: 15px; -fx-font-weight: bold;"
                BorderPane.alignment="CENTER"/>
+               
     </top>
 
     <center>
-        <GridPane hgap="10" vgap="10" BorderPane.alignment="CENTER">
+        <GridPane  hgap="50" vgap="50" BorderPane.alignment="CENTER">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
