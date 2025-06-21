@@ -1,0 +1,3 @@
+com\consultorio\controller\PacienteController.class
+com\consultorio\util\bdConexion.class
+com\consultorio\Main.class
