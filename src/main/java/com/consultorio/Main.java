@@ -8,28 +8,25 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
     public static void main(String[] args) {
-        launch(args); 
+        launch(args);  // Esto arranca JavaFX
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-    com.consultorio.controller.PacienteController test = new com.consultorio.controller.PacienteController();   
-    URL location = getClass().getResource("/fxml/pacientes.fxml");
-    System.out.println("¿FXML encontrado? " + location);
+        // Carga tu interfaz de registro de citas
+        URL fxmlURL = getClass().getResource("/fxml/RegistroCitas.fxml");
 
-    if (location == null) {
-        throw new RuntimeException("No se encontró el archivo pacientes.fxml");
+        if (fxmlURL == null) {
+            throw new RuntimeException("No se encontró el archivo RegistroCitas.fxml en la ruta /fxml/");
+        }
+
+        Parent root = FXMLLoader.load(fxmlURL);
+        Scene scene = new Scene(root);
+
+        stage.setTitle("Agenda de Citas - Prueba");
+        stage.setScene(scene);
+        stage.show();
     }
-
-    Parent root = FXMLLoader.load(location);
-    Scene scene = new Scene(root);
-    stage.setTitle("Registro de Pacientes");
-    stage.setScene(scene);
-    stage.show();
-}
-
-
 }
