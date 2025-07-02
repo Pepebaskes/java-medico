@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.consultorio.controller.EditarUsuarioController"
+            prefHeight="540.0" prefWidth="500.0"
+            style="-fx-background-color: #ffffff; -fx-padding: 20;">
+
+  <children>
+
+    <Label layoutX="20.0" layoutY="20.0" text="Editar Usuario" textFill="#333333">
+      <font>
+        <Font name="Arial Black" size="20.0" />
+      </font>
+    </Label>
+
+    <Label layoutX="20.0" layoutY="70.0" text="Nombre:" />
+    <TextField fx:id="txtNombre" layoutX="150.0" layoutY="65.0" prefWidth="300.0" />
+
+    <Label layoutX="20.0" layoutY="110.0" text="Apellido:" />
+    <TextField fx:id="txtApellido" layoutX="150.0" layoutY="105.0" prefWidth="300.0" />
+
+    <Label layoutX="20.0" layoutY="150.0" text="Correo:" />
+    <TextField fx:id="txtCorreo" layoutX="150.0" layoutY="145.0" prefWidth="300.0" />
+
+    <Label layoutX="20.0" layoutY="190.0" text="Especialidad:" />
+    <TextField fx:id="txtEspecialidad" layoutX="150.0" layoutY="185.0" prefWidth="300.0" />
+
+    <Label layoutX="20.0" layoutY="230.0" text="Domicilio:" />
+    <TextField fx:id="txtDomicilio" layoutX="150.0" layoutY="225.0" prefWidth="300.0" />
+
+    <Label layoutX="20.0" layoutY="270.0" text="Teléfono:" />
+    <TextField fx:id="txtTelefono" layoutX="150.0" layoutY="265.0" prefWidth="300.0" />
+
+    <Label layoutX="20.0" layoutY="310.0" text="Carrera:" />
+    <TextField fx:id="txtCarrera" layoutX="150.0" layoutY="305.0" prefWidth="300.0" />
+
+    <Label layoutX="20.0" layoutY="350.0" text="Cédula:" />
+    <TextField fx:id="txtCedula" layoutX="150.0" layoutY="345.0" prefWidth="300.0" />
+
+    <Label layoutX="20.0" layoutY="390.0" text="Fecha de nacimiento:" />
+    <DatePicker fx:id="dateNacimiento" layoutX="150.0" layoutY="385.0" prefWidth="300.0" />
+
+    <Button fx:id="btnGuardar" layoutX="20.0" layoutY="450.0" prefWidth="135.0" prefHeight="40.0"
+            text="Guardar"
+            style="-fx-background-color: #5EDBC0; -fx-background-radius: 10;"
+            onAction="#guardarCambios" />
+
+    <Button fx:id="btnEliminar" layoutX="180.0" layoutY="450.0" prefWidth="135.0" prefHeight="40.0"
+            text="Eliminar"
+            style="-fx-background-color: #f67280; -fx-background-radius: 10;"
+            onAction="#eliminarUsuario" />
+
+    <Button fx:id="btnCancelar" layoutX="340.0" layoutY="450.0" prefWidth="110.0" prefHeight="40.0"
+            text="Cancelar"
+            style="-fx-background-color: #cccccc; -fx-background-radius: 10;"
+            onAction="#cancelarEdicion" />
+
+  </children>
+</AnchorPane>

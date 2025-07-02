@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.consultorio.controller.RegistroDoctoresController">
+
+   <children>
+      <AnchorPane fx:id="fondo" prefHeight="400.0" prefWidth="600.0"
+                  style="-fx-background-color: #ffffff;">
+         <children>
+            <Label layoutX="58.0" layoutY="36.0" text="Registro de Usuario" textFill="black">
+               <font><Font name="Arial Black" size="20.0" /></font>
+            </Label>
+
+            <Label layoutX="57.0" layoutY="101.0" text="Nombre" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <TextField fx:id="txtNombre" layoutX="125.0" layoutY="96.0" />
+
+            <Label layoutX="329.0" layoutY="101.0" text="Apellido" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <TextField fx:id="txtApellido" layoutX="395.0" layoutY="96.0" prefHeight="25.0" prefWidth="149.0" />
+
+            <Label layoutX="58.0" layoutY="137.0" text="Domicilio" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <TextField fx:id="txtDomicilio" layoutX="126.0" layoutY="132.0" />
+
+            <Label layoutX="327.0" layoutY="137.0" text="Telefono" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <TextField fx:id="txtTelefono" layoutX="395.0" layoutY="132.0" />
+
+            <Label layoutX="57.0" layoutY="174.0" text="Correo" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <TextField fx:id="txtCorreo" layoutX="125.0" layoutY="169.0" />
+
+            <Label layoutX="330.0" layoutY="174.0" text="Carrera" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <TextField fx:id="txtCarrera" layoutX="395.0" layoutY="169.0" prefHeight="25.0" prefWidth="149.0" />
+
+            <Label layoutX="55.0" layoutY="210.0" text="Cedula" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <TextField fx:id="txtCedula" layoutX="125.0" layoutY="205.0" />
+
+            <Label layoutX="299.0" layoutY="210.0" text="Especialidad" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <TextField fx:id="txtEspecialidad" layoutX="395.0" layoutY="205.0" prefHeight="25.0" prefWidth="149.0" />
+
+            <!-- ✅ DatePicker para fecha de nacimiento -->
+            <Label layoutX="249.0" layoutY="246.0" text="Fecha de nacimiento" textFill="black">
+               <font><Font name="Arial" size="14.0" /></font>
+            </Label>
+            <DatePicker fx:id="dateNacimiento" layoutX="395.0" layoutY="241.0" prefHeight="25.0" prefWidth="149.0" />
+
+            <!-- ✅ Botón REGISTRAR vinculado -->
+            <Button fx:id="btnRegistrar"
+                    layoutX="57.0" layoutY="300.0" prefHeight="44.0" prefWidth="209.0"
+                    style="-fx-background-color: #5edbcc; -fx-background-radius: 20; -fx-cursor: hand;"
+                    text="Registrar"
+                    onAction="#registrarDoctor">
+               <font><Font name="Arial" size="16.0" /></font>
+            </Button>
+
+            <!-- Botón VOLVER con acción vinculada -->
+            <Button fx:id="btnVolver"
+                    layoutX="336.0" layoutY="300.0" prefHeight="44.0" prefWidth="209.0"
+                    style="-fx-background-color: #cccccc; -fx-background-radius: 20; -fx-cursor: hand;"
+                    text="Volver"
+                    onAction="#volverAlMenu">
+               <font><Font name="Arial" size="16.0" /></font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
