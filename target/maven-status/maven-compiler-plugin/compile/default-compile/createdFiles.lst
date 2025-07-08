@@ -8,6 +8,9 @@ com\consultorio\controller\MenuControlUsuariosController.class
 com\consultorio\model\Usuario.class
 com\consultorio\controller\ModuloRegistrarConsultaController.class
 com\consultorio\Main.class
+<<<<<<< HEAD
 com\consultorio\controller\RegistroDoctoresController$1.class
 com\consultorio\controller\PacienteController.class
 com\consultorio\controller\RegistroCitasController.class
+=======
+>>>>>>> 389a64a872785a6a6e89e362f0ef9ba2ad914c89

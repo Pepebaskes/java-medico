@@ -8,24 +8,27 @@ import javafx.stage.Stage;
 
 public class Main extends Application { 
     public static void main(String[] args) {
-        launch(args);  // Esto arranca JavaFX
+        launch(args);
     }
 /* @Override
     public void start(Stage stage) throws Exception {
-        // Carga tu interfaz de registro de citas
-        URL fxmlURL = getClass().getResource("/fxml/ModuloConsultarCitas.fxml");
+
+        // Cargar el archivo correcto
+        URL fxmlURL = getClass().getResource("/fxml/menuPrincipal.fxml");
+>>>>>>> 389a64a872785a6a6e89e362f0ef9ba2ad914c89
 
         if (fxmlURL == null) {
-            throw new RuntimeException("No se encontró el archivo RegistroCitas.fxml en la ruta /fxml/");
+            throw new RuntimeException("No se encontró el archivo menuPrincipal en la ruta /fxml/");
         }
 
         Parent root = FXMLLoader.load(fxmlURL);
         Scene scene = new Scene(root);
 
-        stage.setTitle("Agenda de Citas - Prueba");
+        stage.setTitle("Menú Principal");
         stage.setScene(scene);
         stage.show();
     }
+<<<<<<< HEAD
 */
 @Override
 public void start(Stage stage) throws Exception {
@@ -36,5 +39,6 @@ public void start(Stage stage) throws Exception {
     stage.setTitle("🚧 Prueba Formulario Registro");
     stage.show();
 }
+
 
 }

@@ -1,72 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Reflection?>
-<?import javafx.scene.effect.Shadow?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="414.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-  <children>
-    <AnchorPane fx:id="panelPrincipal" maxHeight="-1.0" maxWidth="-1.0" prefHeight="422.0" prefWidth="666.0" VBox.vgrow="ALWAYS">
-         <children>
-            <AnchorPane fx:id="panelEncabezado" layoutX="9.0" layoutY="14.0" prefHeight="54.0" prefWidth="622.0" style="-fx-background-color: #5EDBC0;" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="9.0">
-               <effect>
-                  <Lighting>
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant />
-                     </light>
-                  </Lighting>
-               </effect>
-               <children>
-                  <Label fx:id="labelEncabezado" layoutX="193.0" layoutY="9.0" text="Agenda de citas">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="30.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <Button fx:id="btnRegistrarCita" contentDisplay="CENTER" layoutX="135.0" layoutY="300.0" mnemonicParsing="false" style="-fx-background-color: #5EDBC0;" text="Registrar cita">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnConsultarCita" contentDisplay="CENTER" layoutX="256.0" layoutY="300.0" mnemonicParsing="false" style="-fx-background-color: #5EDBC0;" text="Consultar Cita">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font></Button>
-            <Button fx:id="btnEditarCita" layoutX="375.0" layoutY="300.0" mnemonicParsing="false" style="-fx-background-color: #5EDBC0;" text="Editar Cita" textAlignment="CENTER">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font></Button>
-            <Button fx:id="btnEliminarCita" layoutX="491.0" layoutY="300.0" mnemonicParsing="false" style="-fx-background-color: #5EDBC0;" text="Eliminar cita" textAlignment="CENTER">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font></Button>
-            <Button fx:id="btnRegresarMenu" layoutX="512.0" layoutY="361.0" mnemonicParsing="false" style="-fx-background-color: #DC4941;" text="Regresar al meú" />
-            <AnchorPane layoutX="9.0" layoutY="63.0" prefHeight="332.0" prefWidth="102.0" style="-fx-background-color: #5EDBC0;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="63.0" />
-            <TableView fx:id="tablaCitas" layoutX="120.0" layoutY="69.0" prefHeight="200.0" prefWidth="510.0" style="-fx-background-color: #BED4DA;" AnchorPane.bottomAnchor="131.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="69.0">
-              <columns>
-                  <TableColumn fx:id="colAsistio" prefWidth="28.0" text="A" />
-                <TableColumn fx:id="tblPaciente" prefWidth="170.39996337890625" text="Paciente" />
-                <TableColumn fx:id="tblFechaConsulta" prefWidth="91.199951171875" text="Fecha consulta" />
-                  <TableColumn fx:id="tblHoraConsulta" prefWidth="55.20001220703125" text="Hora" />
-                  <TableColumn fx:id="tblLocalicad" prefWidth="86.39996337890625" text="Localidad" />
-                  <TableColumn fx:id="tblTelefono" prefWidth="76.80001220703127" text="Teléfono " />
-              </columns>
-               <effect>
-                  <Reflection />
-               </effect>
-            </TableView>
-         </children>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.consultorio.controller.RegistroCitasController"
+      spacing="10" prefWidth="666.0" prefHeight="600.0">
+
+    <padding>
+        <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+    </padding>
+
+    <!-- Encabezado -->
+    <AnchorPane prefHeight="60.0" style="-fx-background-color: #5EDBC0;">
+        <children>
+            <Label fx:id="labelEncabezado" layoutX="193.0" layoutY="9.0" text="Agenda de citas">
+                <font>
+                    <Font name="Arial Rounded MT Bold" size="30.0"/>
+                </font>
+                <effect>
+                    <Lighting>
+                        <bumpInput>
+                            <Shadow/>
+                        </bumpInput>
+                        <light>
+                            <Light.Distant/>
+                        </light>
+                    </Lighting>
+                </effect>
+            </Label>
+        </children>
     </AnchorPane>
-  </children>
+
+    <!-- Barra de búsqueda -->
+    <HBox spacing="10" alignment="CENTER_LEFT" prefHeight="40.0">
+        <children>
+            <Label text="Buscar:" />
+            <TextField fx:id="labelBuscarCita" promptText="id, paciente, fecha consulta, hora, localidad, telefono" prefWidth="400.0"/>
+        </children>
+    </HBox>
+
+    <!-- Tabla de citas -->
+    <TableView fx:id="tablaCitas" prefHeight="400.0" prefWidth="640.0" style="-fx-background-color: #BED4DA;">
+        <columns>
+            <TableColumn fx:id="colAsistio" prefWidth="30.0" text="A" />
+            <TableColumn fx:id="tblPaciente" prefWidth="170.0" text="Paciente" />
+            <TableColumn fx:id="tblFechaConsulta" prefWidth="90.0" text="Fecha consulta" />
+            <TableColumn fx:id="tblHoraConsulta" prefWidth="55.0" text="Hora" />
+            <TableColumn fx:id="tblLocalicad" prefWidth="90.0" text="Localidad" />
+            <TableColumn fx:id="tblTelefono" prefWidth="75.0" text="Teléfono" />
+        </columns>
+        <effect>
+            <Reflection />
+        </effect>
+    </TableView>
+
+    <!-- Botones de acción -->
+    <HBox spacing="20" alignment="CENTER" prefHeight="50.0">
+        <children>
+            <Button fx:id="btnRegistrarCita" 
+                    text="Registrar cita" 
+                    onAction="#irARegistroCita"
+                    style="-fx-background-color: #5EDBC0; -fx-font-weight: bold;" />
+            
+            <Button fx:id="btnConsultarCita"
+                    text="Consultar Cita" 
+                    onAction="#irAConsultarCita"
+                    style="-fx-background-color: #5EDBC0; -fx-font-weight: bold;" />
+            
+            <Button fx:id="btnRegresarMenu" 
+            text="Regresar al menú" 
+            style="-fx-background-color: #DC4941; -fx-font-weight: bold;" />
+        </children>
+    </HBox>
+
 </VBox>

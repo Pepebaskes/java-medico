@@ -13,23 +13,32 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
+
 public class RegistroCitasController {
+    @FXML private TextField labelBuscarCita;
 
     @FXML private Button btnRegistrarCita;
     @FXML private Button btnConsultarCita;
-    @FXML private Button btnEditarCita;
-    @FXML private Button btnEliminarCita;
+    //@FXML private Button btnEditarCita;
+    //@FXML private Button btnEliminarCita;
     @FXML private Button btnRegresarMenu;
 
     @FXML private TableView<Cita> tablaCitas;
@@ -42,35 +51,132 @@ public class RegistroCitasController {
 
     private final ObservableList<Cita> citas = FXCollections.observableArrayList();
 
+   
+
+
     @FXML
-    private void initialize() {
-        colAsistio.setCellValueFactory(cellData -> {
-            Cita cita = cellData.getValue();
-            SimpleBooleanProperty property = new SimpleBooleanProperty(cita.isAsistencia());
-            property.addListener((obs, oldVal, newVal) -> {
-                cita.setAsistencia(newVal);
-                actualizarAsistenciaEnBD(cita.getId(), newVal);
-            });
-            return property;
-        });
+    private void irARegistroCita(ActionEvent event) {
+        
+         try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/moduloRegistrarCita.fxml"));
+        Parent root = loader.load();
 
-        colAsistio.setCellFactory(CheckBoxTableCell.forTableColumn(colAsistio));
-        tblPaciente.setCellValueFactory(cita ->
-            new SimpleStringProperty(cita.getValue().getNombre() + " " + cita.getValue().getApellido()));
-        tblFechaConsulta.setCellValueFactory(new PropertyValueFactory<>("fechaConsulta"));
-        tblHoraConsulta.setCellValueFactory(new PropertyValueFactory<>("horaConsulta"));
-        tblLocalicad.setCellValueFactory(new PropertyValueFactory<>("localidad"));
-        tblTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        Stage nuevaVentana = new Stage();
+        nuevaVentana.setTitle("Registrar Consulta");
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/styles/estilos.css").toExternalForm());
+        nuevaVentana.setScene(scene);
 
-        tablaCitas.setItems(citas);
+        nuevaVentana.initModality(Modality.APPLICATION_MODAL);
+            
+        // muestra y espera a que se cierre la ventana 
+        nuevaVentana.showAndWait();
+
+        // actualizar la tabla desde la bd 
         cargarCitasDesdeBD();
 
-        btnRegistrarCita.setOnAction(e -> abrirFormularioRegistro());
+                } catch (IOException e) {
+        e.printStackTrace();
+             }
 
-        btnConsultarCita.setOnAction(e -> System.out.println("Consultar cita"));
-        btnEditarCita.setOnAction(e -> System.out.println("Editar cita"));
-        btnEliminarCita.setOnAction(e -> System.out.println("Eliminar cita"));
-        btnRegresarMenu.setOnAction(e -> System.out.println("Regresar al menú"));
+            }
+    
+
+    
+        @FXML
+    public void irAConsultarCita(ActionEvent event) {
+    Cita citaSeleccionada = tablaCitas.getSelectionModel().getSelectedItem();
+
+    if (citaSeleccionada == null) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Selección necesaria");
+        alerta.setHeaderText(null);
+        alerta.setContentText("Por favor selecciona una cita de la tabla.");
+        alerta.showAndWait();
+        return;
+    }
+
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/moduloConsultarCitas.fxml")); // ruta importante
+        Parent root = loader.load();
+
+        ModuloConsultarCitaController controller = loader.getController();
+        controller.setCitaSeleccionada(citaSeleccionada);
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/styles/estilos.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setTitle("Consultar Cita");
+        stage.showAndWait();
+
+        cargarCitasDesdeBD();
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+}
+    
+
+
+    @FXML
+    public void initialize() {
+           // cargar datos dfe la bbase de datos
+    cargarCitasDesdeBD();
+
+    // configurar las columnas
+    colAsistio.setCellValueFactory(cellData -> {
+        Cita cita = cellData.getValue();
+        SimpleBooleanProperty property = new SimpleBooleanProperty(cita.isAsistencia());
+        property.addListener((obs, oldVal, newVal) -> {
+            cita.setAsistencia(newVal);
+            actualizarAsistenciaEnBD(cita.getId(), newVal);
+        });
+        return property;
+    });
+    colAsistio.setCellFactory(CheckBoxTableCell.forTableColumn(colAsistio));
+
+    tblPaciente.setCellValueFactory(cita ->
+        new SimpleStringProperty(cita.getValue().getNombre() + " " + cita.getValue().getApellido()));
+    tblFechaConsulta.setCellValueFactory(new PropertyValueFactory<>("fechaConsulta"));
+    tblHoraConsulta.setCellValueFactory(new PropertyValueFactory<>("horaConsulta"));
+    tblLocalicad.setCellValueFactory(new PropertyValueFactory<>("localidad"));
+    tblTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+
+    // crear el filtro para buscar las citas
+    FilteredList<Cita> filteredData = new FilteredList<>(citas, p -> true);
+
+    // esciuchar la busqueda
+    labelBuscarCita.textProperty().addListener((obs, oldVal, newVal) -> {
+        String texto = newVal.toLowerCase().trim();
+
+        filteredData.setPredicate(cita -> {
+            if (texto.isEmpty()) return true;
+
+            return String.valueOf(cita.getId()).toLowerCase().contains(texto)
+                || cita.getNombre().toLowerCase().contains(texto)
+                || cita.getApellido().toLowerCase().contains(texto)
+                || cita.getFechaConsulta().toLowerCase().contains(texto)
+                || cita.getHoraConsulta().toLowerCase().contains(texto)
+                || cita.getLocalidad().toLowerCase().contains(texto)
+                || cita.getTelefono().toLowerCase().contains(texto);
+        });
+    });
+
+    // ordenar los datos filtrados
+    SortedList<Cita> sortedData = new SortedList<>(filteredData);
+    sortedData.comparatorProperty().bind(tablaCitas.comparatorProperty());
+
+    // darle los datos
+    tablaCitas.setItems(sortedData);
+
+    // orden de la fecha
+    tablaCitas.getSortOrder().add(tblFechaConsulta);
+    tblFechaConsulta.setSortType(TableColumn.SortType.DESCENDING);
+
+    // boton regresar al menu
+    btnRegresarMenu.setOnAction(e -> System.out.println("Regresar al menú"));
     }
 
     private void cargarCitasDesdeBD() {
@@ -123,7 +229,7 @@ public class RegistroCitasController {
             stage.setTitle("Registrar nueva cita");
             stage.setScene(new Scene(root));
 
-            // Recarga citas al cerrar el formulario
+            // recarga citas al cerrar el formulario
             stage.setOnHidden(e -> cargarCitasDesdeBD());
 
             stage.show();
