@@ -3,11 +3,11 @@ package com.consultorio.controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 import com.consultorio.util.bdConexion;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -18,19 +18,24 @@ public class ModuloRegistrarConsultaController {
 
     @FXML private TextField textFieldNombre;
     @FXML private TextField textFieldApellido;
-    @FXML private TextField textFieldLocalidad;
-    @FXML private TextField textFieldTelefono;
     @FXML private DatePicker fechaConsulta;
     @FXML private ComboBox<String> cbHora;
     @FXML private ComboBox<String> cbMinutos;
+    @FXML private TextField textFieldLocalidad;
+    @FXML private TextField textFieldTelefono;
     @FXML private Button btnGuardar;
     @FXML private Button btnRegresar;
 
     @FXML
-    private void initialize() {
-        for (int h = 7; h <= 20; h++) cbHora.getItems().add(String.format("%02d", h));
-        for (int m = 0; m < 60; m += 5) cbMinutos.getItems().add(String.format("%02d", m));
-
+    public void initialize() {
+        // items del combo box de hora y minutos
+        for (int i = 0; i < 24; i++) {
+            cbHora.getItems().add(String.format("%02d", i));
+        }
+        for (int i = 0; i < 60; i += 1) {
+            cbMinutos.getItems().add(String.format("%02d", i));
+        }
+            //acciones de botones guardar y regresar 
         btnGuardar.setOnAction(e -> guardarCita());
         btnRegresar.setOnAction(e -> ((Stage) btnRegresar.getScene().getWindow()).close());
     }
@@ -38,36 +43,48 @@ public class ModuloRegistrarConsultaController {
     private void guardarCita() {
         String nombre = textFieldNombre.getText();
         String apellido = textFieldApellido.getText();
-        String localidad = textFieldLocalidad.getText();
-        String telefono = textFieldTelefono.getText();
-        LocalDate fecha = fechaConsulta.getValue();
+        String fecha = (fechaConsulta.getValue() != null) ? fechaConsulta.getValue().toString() : "";
         String hora = cbHora.getValue();
         String minutos = cbMinutos.getValue();
+        String localidad = textFieldLocalidad.getText();
+        String telefono = textFieldTelefono.getText();
+        String horaCompleta = (hora != null && minutos != null) ? hora + ":" + minutos : "";
 
-        if (nombre == null || apellido == null || fecha == null || hora == null || minutos == null) {
-            System.out.println("⚠️ Completa todos los campos requeridos.");
+        if (nombre.isEmpty() || apellido.isEmpty() || fecha.isEmpty() || horaCompleta.isEmpty() || localidad.isEmpty()) {
+            mostrarAlerta("Todos los campos deben estar llenos.");
             return;
         }
 
-        String horaCompleta = hora + ":" + minutos;
+        String sql = "INSERT INTO citas (nombre_paciente, apellido, fechaConsulta, horaConsulta, localidad, telefono, asistencia) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, false)";
 
-        try (Connection conn = bdConexion.getConnection()) {
-            String sql = "INSERT INTO citas (nombre_paciente, apellido, fechaConsulta, horaConsulta, localidad, telefono, asistencia) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = bdConexion.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                //hay que revisar el orden de los campos porque al presionar tab me brinca, no va en orden
             stmt.setString(1, nombre);
             stmt.setString(2, apellido);
-            stmt.setDate(3, java.sql.Date.valueOf(fecha));
+            stmt.setString(3, fecha);
             stmt.setString(4, horaCompleta);
             stmt.setString(5, localidad);
             stmt.setString(6, telefono);
-            stmt.setBoolean(7, false);
 
             stmt.executeUpdate();
-            System.out.println("✅ Cita guardada correctamente.");
-            ((Stage) btnGuardar.getScene().getWindow()).close();
 
-        } catch (SQLException ex) {
-            System.err.println("❌ Error al guardar en BD: " + ex.getMessage());
+            mostrarAlerta("Cita guardada correctamente.");
+            ((Stage) btnGuardar.getScene().getWindow()).close(); // cerrar la ventana 
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error al guardar en la base de datos.");
         }
+    }
+
+    private void mostrarAlerta(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Información");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }
